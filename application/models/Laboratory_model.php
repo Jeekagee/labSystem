@@ -52,14 +52,17 @@ class Laboratory_model extends CI_Model
         return $row->amount;
     }
 
-    public function insert_lab_service($id,$nic,$location,$doctor,$comment){
+    public function insert_lab_service($id,$service_id,$patient_id,$test_date,$source,$requested,$dr,$center){
         $data = array(
             'invoice_no' => $id,
-            'user_id' => $this->session->user_id,
-            'patient_nic' => $nic,
-            'location_id' => $location,
-            'doctor_id' => $doctor,
-            'comment' => $comment,
+            'service_id' => $service_id,
+            'patient_id' => $patient_id,
+            'test_date' => $test_date,
+            'test_source' => $source,
+            'request_by' => $requested,
+            'refer_doctor' => $dr,
+            'center' => $center,
+            'result_status' => 0,
         );
     
         $this->db->insert('lab_service', $data);
@@ -212,6 +215,27 @@ class Laboratory_model extends CI_Model
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row->address;
+    }
+
+    public function patient_detail_by_id($id){
+        $sql = "SELECT * FROM patient WHERE id = '$id' LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row;
+    }
+
+    public function get_result_labels($service_id){
+        $sql = "SELECT * FROM lab_result_labels";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
+    public function get_ref_labels($service_id){
+        $sql = "SELECT * FROM lab_reference_labels";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
     }
 }
 

@@ -99,13 +99,10 @@ class Appoint_model extends CI_Model
         return $conut = $query->num_rows();
     }
 
-    public function insert_patient($nic,$pname,$mobile,$address,$title,$ageyear,$agemonth,$gender){
+    public function insert_patient($nic,$pname,$ageyear,$agemonth,$gender){
         $data = array(
             'name' => $pname,
             'nic' => $nic,
-            'mobile' => $mobile,
-            'address' => $address,
-            'title' => $title,
             'ageyear' => $ageyear,
             'agemonth' => $agemonth,
             'gender' => $gender
@@ -203,5 +200,19 @@ class Appoint_model extends CI_Model
         );
     
         $this->db->insert('specialization', $data);
+    }
+
+    public function get_patient_id($nic){
+        if($nic != 0)
+        {
+            $sql = "SELECT id FROM patient WHERE nic = '$nic' ORDER BY id DESC";
+        }
+        else
+        {
+            $sql = "SELECT id FROM patient ORDER BY id DESC";
+        }
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row->id;
     }
 }

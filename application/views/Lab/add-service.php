@@ -27,20 +27,6 @@
                         <div class="form-horizontal style-form">
                         
                         <div class="form-group">
-                          <label class="col-sm-3 control-label">Location<span style="color: red;"> *</span></label>
-                          <div class="col-sm-8">
-                              <select id="location" class="form-control" name="location">
-                                <?php
-                                foreach ($locations as $location) {
-                                    echo "<option value='$location->id'>$location->location</option>";
-                                }
-                                ?>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('location'); ?></span>
-                          </div>
-                        </div>
-                        
-                        <div class="form-group">
                             <label class="col-sm-3 control-label">Invoice No</label>
                             <div class="col-sm-8">
                             <input type="text" value="<?php echo $invoice_no; ?>" class="form-control" name="invoice_no" id="invoice_no" readonly >
@@ -48,35 +34,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">NIC No<span style="color: red;"></span></label>
+                            <label class="col-sm-3 control-label">Patient NIC No<span style="color: red;"></span></label>
                             <div class="col-sm-8">
                             <input type="text" value="<?php echo set_value('nic'); ?>" class="form-control" name="nic" id="nic">
                             <div id="nic_list"></div>
                             <span class="text-danger"><?php echo form_error('nic'); ?></span>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Mobile No<span style="color: red;"> *</span></label>
-                            <div class="col-sm-8">
-                            <input type="text" placeholder ="771234567" value="<?php echo set_value('mobile'); ?>" class="form-control" name="mobile" id="mobile">
-                            <div id="mobile_list"></div>
-                            <span class="text-danger"><?php echo form_error('mobile'); ?></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Title<span style="color: red;"> *</span></label>
-                          <div class="col-sm-8">
-                              <select id="title" class="form-control" name="title">
-                                <?php
-                                foreach ($titles as $title) {
-                                    echo "<option value='$title->id'>$title->title_name</option>";
-                                }
-                                ?>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('title'); ?></span>
-                          </div>
                         </div>
 
                         <div class="form-group">
@@ -111,107 +74,31 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Address</label>
+                            <label class="col-sm-3 control-label">Test Date<span style="color: red;"> *</span></label>
                             <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('address'); ?>" class="form-control" name="address" id="address">
-                            <span class="text-danger"><?php echo form_error('address'); ?></span>
+                            <input type="date" value="<?php echo set_value('date'); ?>" class="form-control" name="date" id="date">
+                            <span class="text-danger"><?php echo form_error('date'); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                          <label class="col-sm-3 control-label">Service<span style="color: red;"> *</span></label>
-                          <div class="col-sm-4">
-                              <select id="service" class="form-control" name="service">
-                                <option value="">Select Service</option>
-                                <?php
-                                foreach ($services as $service) {
-                                    echo "<option value='$service->service_id'>$service->service</option>";
-                                }
-                                ?>
-                              </select>
-                              <span class="text-danger" id="service_error"></span>
-                          </div>
-                          <div class="col-sm-4">
-                            <input type="text" class="form-control" id="charge" readonly id="charge">
-                            <span class="text-danger"><?php echo form_error('charge'); ?></span>
-                          </div>
-                          <div class="col-sm-1" style="padding-right: 0px; padding-left: 0px;">
-                             <a onclick="addService()" class="btn btn-primary">Add</a>
-                          </div>
-  
-                        </div>
-
-                        <div class="form-group" id="services">
-                            <?php
-                            $CI =& get_instance();
-                            $is_service = $CI->Laboratory_model->is_service($invoice_no);
-                            if ($is_service > 0) {
-                              $services = $CI->Laboratory_model->addedServices($invoice_no);
-                              ?>
-                              <table class="table table-hover">
-                                <thead>
-                                <th class="text-center">No</th>
-                                <th class="text-center">Service</th>
-                                <th class="text-right">Amount</th>
-                                <th class="text-center">Action</th>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $i = 1;
-                                    $total = 0;
-                                    foreach ($services as $service) {
-                                      ?>
-                                      <tr id="row<?php echo $service->id; ?>">
-                                        <td class="text-center"><?php echo $i; ?></td>
-                                        <td class="text-center">
-                                            <?php 
-                                            $service_id = $service->service_id;
-                                            echo $this->Laboratory_model->get_service($service_id);
-                                            ?>
-                                        </td>
-                                        <td class="text-right"><?php echo $charge = $service->charge; ?>.00</td>
-                                        <td class="text-center"><a  class="btn btn-xs btn-danger delete_service" id="<?php echo $service->id; ?>">Delete</a></td>
-                                      </tr>
-                                      <?php
-                                      $i++;
-                                      $total = $total+$charge;
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td></td>
-                                        <td class="text-center text-danger" style="font-weight:900;">Total</td>
-                                        <td class="text-right text-danger" style="font-weight:900;"><?php echo $total; ?>.00</td>
-                                        <td></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <script>
-                                  $(document).ready(function() {
-                                      $('.delete_service').click(function() {
-                                          var id = $(this).attr("id");
-                                          $.ajax({
-                                              type: "POST",
-                                              url: "<?php echo base_url(); ?>Laboratory/deleteService", //490
-                                              data: ({
-                                                  id: id
-                                              }),
-                                              cache: false,
-                                              success: function(html) {
-                                                  //alert(html);
-                                                  $("#row" + id).fadeOut('slow');
-                                              }
-                                          });
-                                      });
-                                  });
-                              </script>
-                              <?php
-                            }
-                            ?>
+                            <label class="col-sm-3 control-label">Source</label>
+                            <div class="col-sm-8">
+                            <input type="text" value="<?php echo set_value('source'); ?>" class="form-control" name="source" id="source">
+                            <span class="text-danger"><?php echo form_error('source'); ?></span>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                          <label class="col-sm-3 control-label">Doctor</label>
+                            <label class="col-sm-3 control-label">Requested By</label>
+                            <div class="col-sm-8">
+                            <input type="text" value="<?php echo set_value('requestBy'); ?>" class="form-control" name="requestBy" id="requestBy">
+                            <span class="text-danger"><?php echo form_error('requestBy'); ?></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Refer Doctor</label>
                           <div class="col-sm-8">
                               <select id="doctor" class="form-control" name="doctor">
                                 <option value="">Select Doctor</option>
@@ -241,10 +128,10 @@
                         ?>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Comments</label>
+                            <label class="col-sm-3 control-label">Center</label>
                             <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('comment'); ?>" class="form-control" name="comment" id="comment">
-                            <span class="text-danger"><?php echo form_error('comment'); ?></span>
+                            <input type="text" value="<?php echo set_value('center'); ?>" class="form-control" name="center" id="center">
+                            <span class="text-danger"><?php echo form_error('center'); ?></span>
                             </div>
                         </div>
 

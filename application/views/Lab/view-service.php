@@ -24,10 +24,13 @@
                     <th class="text-center">#</th>
                     <th>Nic</th>
                     <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Location</th>
-                    <th>Doctor Ref</th>
-                    <th>Comment</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Date</th>
+                    <th>Source</th>
+                    <th>Requested By</th>
+                    <th>Refer Doctor</th>
+                    <th>Center</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
@@ -36,33 +39,51 @@
                   $CI =& get_instance();
                   $i =1;
                   foreach ($services as $service){
-                    $nic = $service->patient_nic;
-                    $location_id = $service->location_id;
-                    $doctor_id = $service->doctor_id;
+                    $patient_id = $service->patient_id;
+                    //$location_id = $service->location_id;
+                    $doctor_id = $service->refer_doctor;
                     // Get Patient Detail by nic
-                    $patient = $CI->Laboratory_model->patient_detail($nic); //70
+                    $patient = $CI->Laboratory_model->patient_detail_by_id($patient_id); //70
                     // Get Location Detail by location_id
-                    $location = $CI->Laboratory_model->get_location($location_id); //77
+                    //$location = $CI->Laboratory_model->get_location($location_id); //77
                     // Get Doctor name by doctor_id
-                    $doctor_name = $CI->Laboratory_model->get_doctor($doctor_id); //91
-                    ?>
+                    if($doctor_id > 0)
+                    {
+                      $doctor_name = $CI->Laboratory_model->get_doctor($doctor_id); //91
+                      $dr = $doctor_name->name;
+                    }
+                    else{
+                      $dr = '';
+                    }
+                    
+                  ?>
                       <tr id="service<?php echo $service->id; ?>">
                         <td class="text-center"><?php echo $i; ?></td>
-                        <td><?php echo $nic; ?></td>
+                        <td><?php echo $patient->nic; ?></td>
                         <td><?php echo $patient->name; ?></td>
-                        <td><?php echo $patient->mobile; ?></td>
-                        <td><?php echo $location; ?></td>
-                        <td><?php
-                        if ($doctor_id != 0) {
-                          echo $doctor_name->name; 
-                        }
-                
-                        ?>
+                        <td><?php echo $patient->ageyear. " Years " . $patient->agemonth. " Months"; ?></td>
+                        <td>
+                          <?php
+                            if ($patient->gender == 1) 
+                            {
+                              echo "Male";
+                            }
+                            else
+                            {
+                              echo "Female";
+                            }
+                          ?>
                         </td>
-                        <td><?php echo $service->comment; ?></td>
+                        <td><?php echo $service->test_date; ?></td>
+                        <td><?php echo $service->test_source; ?></td>
+                        <td><?php echo $service->request_by; ?></td>
+                        <td><?php echo $dr; ?></td>
+                        <td><?php echo $service->center; ?></td>
                         <td class="text-center">
-                          <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a>
-                          <a id="<?php echo $service->id; ?>" class="btn btn-danger btn-xs del_service"><i class="fa fa-trash"></i></a>
+                          <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                          <!--<a id="<?php echo $service->id; ?>" class="btn btn-warning btn-xs del_service"><i class="fa fa-pencil"></i></a>-->
+                          
+                          <a target="_blank" href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service->invoice_no;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
                         </td>
                       </tr>
                     <?php

@@ -10,6 +10,14 @@ class Orders_model extends CI_Model
         $result = $query->result();
         return $result;
     }
+
+    public function all_services(){
+        $sql = "SELECT * FROM service";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
     public function order_available(){
         $sql = "SELECT id FROM orders WHERE status = 0";
         $query = $this->db->query($sql);

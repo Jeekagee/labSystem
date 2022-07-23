@@ -79,40 +79,51 @@ class Laboratory extends CI_Controller
   public function insert(){
     //$this->form_validation->set_rules('nic', 'NIC Number', 'required');
     $this->form_validation->set_rules('pname', 'Patient Name', 'required');
-    $this->form_validation->set_rules('mobile', 'Mobile Number', 'required');
+    $this->form_validation->set_rules('date', 'Test Date', 'date');
     $this->form_validation->set_rules('pyear', 'Patient Age', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->Add();
         }
         else{
-            $id = $this->input->post('invoice_no');
-            $location = $this->input->post('location');
             $nic = $this->input->post('nic');
             $pname = $this->input->post('pname');
-            $mobile = $this->input->post('mobile');
-            $address = $this->input->post('address');
-            $doctor = $this->input->post('doctor');
-            $comment = $this->input->post('comment');
-
-            $title = $this->input->post('title');
             $gender = $this->input->post('pgender');
             $ageyear = $this->input->post('pyear');
             $agemonth = $this->input->post('pmonth');
 
-            $this->Laboratory_model->insert_lab_service($id,$nic,$location,$doctor,$comment);
-            
-            if ($this->Appoint_model->patient_available($nic) > 0) {
-                $this->Appoint_model->update_patient($nic,$pname,$mobile,$address,$title,$ageyear,$agemonth,$gender);
+            $id = $this->input->post('invoice_no');
+            $service_id = 1;
+            $test_date = $this->input->post('date');
+            $source = $this->input->post('source');
+            $requested = $this->input->post('requestBy');
+            $dr = $this->input->post('doctor');
+            $center = $this->input->post('center');
+
+            if ($this->Appoint_model->patient_available($nic) > 0 && $nic != '') {
+                //$this->Appoint_model->update_patient($nic,$pname,$mobile,$address,$title,$ageyear,$agemonth,$gender);
             }
             else{
-                $this->Appoint_model->insert_patient($nic,$pname,$mobile,$address,$title,$ageyear,$agemonth,$gender);
+                $this->Appoint_model->insert_patient($nic,$pname,$ageyear,$agemonth,$gender);
             }
+
+            if($nic != '')
+            {
+                $patient_id = $this->Appoint_model->get_patient_id($nic);
+            }
+            else
+            {
+                $patient_id = $this->Appoint_model->get_patient_id(0);
+            }
+            
+            $this->Laboratory_model->insert_lab_service($id,$service_id,$patient_id,$test_date,$source,$requested,$dr,$center);
+            
             $this->session->set_flashdata('labmsg',"<div class='alert alert-success'>Service Added Successfully!</div>");
             
-            $abc = 3;
+            /*$abc = 3;
             $url = base_url() . "Laboratory/view_single/" . $id;
-            redirect($url);
+            redirect($url);*/
+            redirect('Laboratory/View');
         }
   }
 

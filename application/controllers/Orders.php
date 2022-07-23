@@ -31,10 +31,12 @@ class Orders extends CI_Controller {
         $data['nav'] = "Orders";
         $data['subnav'] = "Orders";
 
+        $data['lab_services'] = $this->Orders_model->all_services();
+
         $this->load->view('dashboard/layout/header',$data);
         $this->load->view('dashboard/layout/aside',$data);
         //$this->load->view('aside',$data);
-        $this->load->view('orders/lab-view',$data);
+        $this->load->view('orders/lab_dashboard',$data);
         $this->load->view('orders/footer');
     }
 
