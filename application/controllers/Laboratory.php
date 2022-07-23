@@ -21,7 +21,7 @@ class Laboratory extends CI_Controller
         }
   }
 
-  public function Add()
+  public function Add($service_id)
   {
         $data['page_title'] = 'Labortary';
         $data['username'] = $this->Dashboard_model->username();
@@ -38,6 +38,7 @@ class Laboratory extends CI_Controller
 
         $data['titles'] = $this->Laboratory_model->titles();
 
+        $data['service_id'] = $service_id;
         $data['nav'] = "Lab Test";
         $data['subnav'] = "Add Services";
 
@@ -60,6 +61,7 @@ class Laboratory extends CI_Controller
         // Get All Services
         $data['services'] = $this->Laboratory_model->view_services($service_id); //63
 
+        $data['service_id'] = $service_id;
         $data['nav'] = "Lab Test";
         $data['subnav'] = "View";
 
@@ -93,7 +95,7 @@ class Laboratory extends CI_Controller
             $agemonth = $this->input->post('pmonth');
 
             $id = $this->input->post('invoice_no');
-            $service_id = 1;
+            $service_id = $this->input->post('service_id');
             $test_date = $this->input->post('date');
             $source = $this->input->post('source');
             $requested = $this->input->post('requestBy');
@@ -123,7 +125,10 @@ class Laboratory extends CI_Controller
             /*$abc = 3;
             $url = base_url() . "Laboratory/view_single/" . $id;
             redirect($url);*/
-            redirect('Laboratory/View');
+
+            $url = base_url() . "Laboratory/View/" . $service_id;
+            redirect($url);
+            //redirect('Laboratory/View');
         }
   }
 
@@ -205,43 +210,12 @@ class Laboratory extends CI_Controller
   }
 
   public function update(){
-        //$this->form_validation->set_rules('nic', 'NIC Number', 'required');
-        $this->form_validation->set_rules('pname', 'Patient Name', 'required');
-        $this->form_validation->set_rules('mobile', 'Mobile Number', 'required');
-        $this->form_validation->set_rules('service', 'Service', 'required');
 
-        $service_id = $this->input->post('id');
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->view_single($service_id);
-        }
-        else{
-            $location = $this->input->post('location');
-            $nic = $this->input->post('nic');
-            $pname = $this->input->post('pname');
-            $mobile = $this->input->post('mobile');
-            $address = $this->input->post('address');
-            $service = $this->input->post('service');
-            $charge = $this->input->post('charge');
-            $doctor = $this->input->post('doctor');
-            $comment = $this->input->post('comment');
-
-            $title = $this->input->post('title');
-            $gender = $this->input->post('pgender');
-            $ageyear = $this->input->post('pyear');
-            $agemonth = $this->input->post('pmonth');
-            
-            $this->Laboratory_model->update_lab_service($service_id,$nic,$location,$service,$charge,$doctor,$comment); //105
-            
-            if ($this->Appoint_model->patient_available($nic) > 0) {
-                $this->Appoint_model->update_patient($nic,$pname,$mobile,$address,$title,$ageyear,$agemonth,$gender);
-            }
-            else{
-                $this->Appoint_model->insert_patient($nic,$pname,$mobile,$address,$title,$ageyear,$agemonth,$gender);
-            }
-            $this->session->set_flashdata('updatemsg',"<div class='alert alert-success'>Updated Successfully!</div>");
-            redirect('Laboratory/View');
-        }
+    $service_id = $this->input->post('id');
+    
+    $this->session->set_flashdata('updatemsg',"<div class='alert alert-success'>Updated Successfully!</div>");
+    
+    redirect('Laboratory/View');
   }
   
   public function view_single($service_id){

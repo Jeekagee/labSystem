@@ -12,7 +12,7 @@
         ?>
         </div>
             <div style="margin-bottom: 10px; margin-top:10px;" >
-                <a href="<?php echo base_url(); ?>Laboratory/Add" class="btn btn-success"><i class="fa fa-plus"></i> Add New</a>
+                <a href="<?php echo base_url(); ?>Laboratory/Add/<?php echo $service_id; ?>" class="btn btn-success"><i class="fa fa-plus"></i> Add New</a>
             </div>
         <div class="row mb" style="padding:10px;">
           <!-- page start-->

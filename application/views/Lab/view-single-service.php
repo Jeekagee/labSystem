@@ -36,6 +36,8 @@
                     $patient = $CI->Laboratory_model->patient_detail_by_id($patient_id); //70
                     
                   ?>
+                  <input type="hidden" value="<?php echo $service_data->id; ?>" name="service_id" id="service_id">
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Invoice No</label>
                             <div class="col-sm-3"><input type="text" value="<?php echo $invoice_no = $service_data->invoice_no; ?>" class="form-control" name="invoice_no" id="invoice_no" readonly ></div>

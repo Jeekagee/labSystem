@@ -29,6 +29,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Invoice No</label>
                             <div class="col-sm-8">
+                            <input type="hidden" value="<?php echo $service_id; ?>" class="form-control" name="service_id" id="service_id" readonly >
                             <input type="text" value="<?php echo $invoice_no; ?>" class="form-control" name="invoice_no" id="invoice_no" readonly >
                             </div>
                         </div>
