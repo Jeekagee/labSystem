@@ -83,7 +83,7 @@
                           <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
                           <!--<a id="<?php echo $service->id; ?>" class="btn btn-warning btn-xs del_service"><i class="fa fa-pencil"></i></a>-->
                           
-                          <a target="_blank" href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service->invoice_no;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
+                          <!--<a target="_blank" href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service->invoice_no;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>-->
                         </td>
                       </tr>
                     <?php

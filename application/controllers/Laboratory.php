@@ -48,7 +48,7 @@ class Laboratory extends CI_Controller
         $this->load->view('Lab/footer');
   }
 
-  public function View()
+  public function View($service_id)
   {
     $data['page_title'] = 'Labortary';
         $data['username'] = $this->Dashboard_model->username();
@@ -58,7 +58,7 @@ class Laboratory extends CI_Controller
         $data['pending_count'] = $this->Dashboard_model->pending_count();
         $data['confirm_count'] = $this->Dashboard_model->confirm_count();
         // Get All Services
-        $data['services'] = $this->Laboratory_model->view_services(); //63
+        $data['services'] = $this->Laboratory_model->view_services($service_id); //63
 
         $data['nav'] = "Lab Test";
         $data['subnav'] = "View";

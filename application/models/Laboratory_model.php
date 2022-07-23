@@ -68,8 +68,8 @@ class Laboratory_model extends CI_Model
         $this->db->insert('lab_service', $data);
     }
 
-    public function view_services(){
-        $sql = "SELECT * FROM lab_service ORDER BY updated DESC";
+    public function view_services($service_id){
+        $sql = "SELECT * FROM lab_service WHERE service_id = '$service_id' ORDER BY updated DESC";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;
@@ -225,14 +225,14 @@ class Laboratory_model extends CI_Model
     }
 
     public function get_result_labels($service_id){
-        $sql = "SELECT * FROM lab_result_labels";
+        $sql = "SELECT * FROM lab_result_labels WHERE service_id = '$service_id'";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;
     }
 
     public function get_ref_labels($service_id){
-        $sql = "SELECT * FROM lab_reference_labels";
+        $sql = "SELECT * FROM lab_reference_labels WHERE service_id = '$service_id'";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;

@@ -57,16 +57,30 @@
                         </div>
                       
                         <?php
-                          $result_labels = $CI->Laboratory_model->get_result_labels($service_data->id);
-                          $ref_labels = $CI->Laboratory_model->get_ref_labels($service_data->id);
+                          $result_labels = $CI->Laboratory_model->get_result_labels($service_data->service_id);
+                          $ref_labels = $CI->Laboratory_model->get_ref_labels($service_data->service_id);
                           foreach($result_labels as $row)
                           {
                         ?>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label"><?php echo $row->result_label ; ?></label>
-                            <label class="col-sm-2 control-label">:</label>
-                            <div class="col-sm-3"><input type="text" value="" class="form-control"></div>
-                            <label class="col-sm-3 control-label"><?php echo $row->result_unit ; ?></label>
+                          <?php
+                            if($row->is_input == 0)
+                            {
+                          ?>
+                              <label class="col-sm-2 control-label"><b><?php echo $row->result_label ; ?></b></label>
+                          <?php
+                            }
+                            else
+                            {
+                          ?>
+                              <label class="col-sm-2 control-label"><?php echo $row->result_label ; ?></label>
+                              <label class="col-sm-2 control-label">:</label>
+                              <div class="col-sm-3"><input type="text" value="" class="form-control"></div>
+                              <label class="col-sm-3 control-label"><?php echo $row->result_unit ; ?></label>
+                          <?php
+                            }
+                          ?>
+                            
                         </div>
                         <?php
                           }

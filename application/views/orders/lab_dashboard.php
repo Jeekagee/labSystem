@@ -75,7 +75,7 @@ p {
                   <div class="icon">
                     <i class="ion ion-bag"></i>
                   </div>
-                  <a href="<?php echo base_url(); ?>Laboratory/View"" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="<?php echo base_url(); ?>Laboratory/View/<?php echo $services->service_id; ?>" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
             <?php
