@@ -237,6 +237,26 @@ class Laboratory_model extends CI_Model
         $result = $query->result();
         return $result;
     }
+
+    public function insert_lab_service_result($patient_id,$lab_service_id,$result_label_id,$result_value){
+        $data = array(
+            'patient_id' => $patient_id,
+            'lab_service_id' => $lab_service_id,
+            'result_label_id' => $result_label_id,
+            'result_value' => $result_value,
+        );
+    
+        $this->db->insert('lab_services', $data);
+    }
+
+    public function update_status($lab_service_id){
+        $data = array(
+            'result_status' => 1,
+        );
+        
+        $this->db->where('id', $lab_service_id);
+        $this->db->update('lab_service', $data);
+    }
 }
 
 

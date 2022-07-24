@@ -30,13 +30,15 @@
                       </div>
                         <h4 class="mb">Labortary Service</h4>
                         <div class="form-horizontal style-form">
-                <?php
-                  $CI =& get_instance();
+                  <?php
+                    $CI =& get_instance();
                     $patient_id = $service_data->patient_id;
                     $patient = $CI->Laboratory_model->patient_detail_by_id($patient_id); //70
-                    
                   ?>
-                  <input type="hidden" value="<?php echo $service_data->id; ?>" name="service_id" id="service_id">
+                  
+                  <input type="hidden" value="<?php echo $service_data->id; ?>" name="lab_service_id" id="lab_service_id">
+                  <input type="hidden" value="<?php echo $service_data->service_id; ?>" name="service_id" id="service_id">
+                  <input type="hidden" value="<?php echo $patient_id; ?>" name="patient_id" id="patient_id">
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Invoice No</label>
@@ -61,6 +63,7 @@
                         <?php
                           $result_labels = $CI->Laboratory_model->get_result_labels($service_data->service_id);
                           $ref_labels = $CI->Laboratory_model->get_ref_labels($service_data->service_id);
+                          $labels = "";
                           foreach($result_labels as $row)
                           {
                         ?>
@@ -74,10 +77,18 @@
                             }
                             else
                             {
+                              if($labels == "")
+                              {
+                                $labels = $row->id;
+                              }
+                              else
+                              {
+                                $labels = $labels."_".$row->id;
+                              }
                           ?>
                               <label class="col-sm-2 control-label"><?php echo $row->result_label ; ?></label>
                               <label class="col-sm-2 control-label">:</label>
-                              <div class="col-sm-3"><input type="text" value="" class="form-control"></div>
+                              <div class="col-sm-3"><input type="text" value="" class="form-control inputclass"></div>
                               <label class="col-sm-3 control-label"><?php echo $row->result_unit ; ?></label>
                           <?php
                             }
@@ -87,6 +98,10 @@
                         <?php
                           }
                         ?>
+
+                        <input type="hidden" value="<?php echo $labels; ?>" name="labels" id="labels">
+                        <input type="hidden" value="" name="values" id="values">
+                  
                           <div class="form-group">
                             <label class="col-sm-2 control-label"><b>Reference Range</b></label>
                           </div>
@@ -119,4 +134,16 @@
     </section>
 </section>
 
-
+<script>
+  var values = '';
+  $(".inputclass").change(function(){
+    if(values == '')
+    {
+      values = $(this).val();
+    }
+    else{
+      values = values + "_" + $(this).val();
+    }
+    $('#values').val(values);
+  });
+</script>

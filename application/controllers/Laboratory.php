@@ -210,12 +210,30 @@ class Laboratory extends CI_Controller
   }
 
   public function update(){
+    $service_id = $this->input->post('service_id');
 
-    $service_id = $this->input->post('id');
+    $patient_id = $this->input->post('patient_id');
+    $lab_service_id = $this->input->post('lab_service_id');
+    $labels = $this->input->post('labels');
+    $result_value = $this->input->post('values');
+    $values = explode('_', $result_value);
+
+    $count = 0;
+    foreach(explode('_',$labels) as $row)
+    {
+        $val = $values[$count];
+        $this->Laboratory_model->insert_lab_service_result($patient_id,$lab_service_id,$row,$val);
+        $count = $count + 1;
+    }
+    
+    $this->Laboratory_model->update_status($lab_service_id);
     
     $this->session->set_flashdata('updatemsg',"<div class='alert alert-success'>Updated Successfully!</div>");
     
-    redirect('Laboratory/View');
+    //redirect('Laboratory/View');
+    $url = base_url() . "Laboratory/View/" . $service_id;
+    redirect($url);
+
   }
   
   public function view_single($service_id){

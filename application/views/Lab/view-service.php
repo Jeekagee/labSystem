@@ -80,9 +80,12 @@
                         <td><?php echo $dr; ?></td>
                         <td><?php echo $service->center; ?></td>
                         <td class="text-center">
-                          <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                          <?php if($service->result_status == 0){ ?>
+                            <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                          <?php } else { ?>
+                            <a href="#" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
+                          <?php } ?>
                           <!--<a id="<?php echo $service->id; ?>" class="btn btn-warning btn-xs del_service"><i class="fa fa-pencil"></i></a>-->
-                          
                           <!--<a target="_blank" href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service->invoice_no;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>-->
                         </td>
                       </tr>
