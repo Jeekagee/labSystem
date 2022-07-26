@@ -228,10 +228,9 @@ class Laboratory extends CI_Controller
     
     $this->Laboratory_model->update_status($lab_service_id);
     
-    $this->session->set_flashdata('updatemsg',"<div class='alert alert-success'>Updated Successfully!</div>");
-    
-    //redirect('Laboratory/View');
-    $url = base_url() . "Laboratory/View/" . $service_id;
+    $data['service_data'] = $this->Laboratory_model->single_service($lab_service_id);
+
+    $url = base_url() . "Laboratory/viewprintBill/" . $lab_service_id;
     redirect($url);
 
   }
@@ -278,8 +277,9 @@ class Laboratory extends CI_Controller
         
   }
 
-  public function viewprintBill($invoice_no){
-    $data['bill_details'] = $this->Laboratory_model->printbill_details($invoice_no);
+  public function viewprintBill($id){
+    $data['service_data'] = $this->Laboratory_model->single_service($id);
+        
     $this->load->view('Lab/print_bill',$data);
 }
 

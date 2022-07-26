@@ -31,6 +31,7 @@
                     <th>Requested By</th>
                     <th>Refer Doctor</th>
                     <th>Center</th>
+                    <th>Status</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
@@ -79,14 +80,26 @@
                         <td><?php echo $service->request_by; ?></td>
                         <td><?php echo $dr; ?></td>
                         <td><?php echo $service->center; ?></td>
+                        <td>
+                          <?php
+                            if ($service->result_status == 0) 
+                            {
+                              echo "Pending";
+                            }
+                            else
+                            {
+                              echo "Completed";
+                            }
+                          ?>
+                        </td>
                         <td class="text-center">
+                          <a href="#" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                          <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-info btn-xs"><i class="fa-solid fa-flask"></i></a>
                           <?php if($service->result_status == 0){ ?>
-                            <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                            <a href="#" class="btn btn-success btn-xs" style="pointer-events: none;"><i class="fa fa-print"></i></a>
                           <?php } else { ?>
-                            <a href="#" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
+                            <a href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service->id;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
                           <?php } ?>
-                          <!--<a id="<?php echo $service->id; ?>" class="btn btn-warning btn-xs del_service"><i class="fa fa-pencil"></i></a>-->
-                          <!--<a target="_blank" href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service->invoice_no;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>-->
                         </td>
                       </tr>
                     <?php
@@ -96,8 +109,6 @@
                 </tbody>
               </table>
             </div>
-
-            
           </div>
           <!-- page end-->
         </div>

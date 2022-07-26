@@ -69,7 +69,7 @@ class Laboratory_model extends CI_Model
     }
 
     public function view_services($service_id){
-        $sql = "SELECT * FROM lab_service WHERE service_id = '$service_id' ORDER BY updated DESC";
+        $sql = "SELECT * FROM lab_service WHERE service_id = '$service_id' ORDER BY created DESC";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;
@@ -181,8 +181,8 @@ class Laboratory_model extends CI_Model
 
     public function printbill_details($invoice_no)
     {
-        $sql = "SELECT lab_service.invoice_no,doctor.name,patient.* FROM lab_service,patient,doctor 
-        WHERE lab_service.patient_nic = patient.nic AND lab_service.invoice_no = $invoice_no AND lab_service.doctor_id = doctor.id";
+        $sql = "SELECT * FROM lab_service,patient 
+        WHERE lab_service.patient_id = patient.id AND lab_service.id = $invoice_no";
         $query = $this->db->query($sql);
         $result = $query->row();
         return $result;
@@ -226,6 +226,13 @@ class Laboratory_model extends CI_Model
 
     public function get_result_labels($service_id){
         $sql = "SELECT * FROM lab_result_labels WHERE service_id = '$service_id'";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
+    public function get_result($service_id, $id){
+        $sql = "SELECT * FROM lab_result_labels,lab_services WHERE lab_result_labels.id = lab_services.result_label_id AND lab_result_labels.service_id = '$service_id' AND lab_services.lab_service_id = $id";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;
