@@ -49,6 +49,27 @@ class Laboratory extends CI_Controller
         $this->load->view('Lab/footer');
   }
 
+  public function AllServices()
+  {
+    $data['page_title'] = 'Labortary';
+        $data['username'] = $this->Dashboard_model->username();
+        // Customer List
+        $data['pendings'] = $this->Booking_model->pending();
+
+        $data['pending_count'] = $this->Dashboard_model->pending_count();
+        $data['confirm_count'] = $this->Dashboard_model->confirm_count();
+        // Get All Services
+        $data['services'] = $this->Laboratory_model->view_all_services(); //63
+
+        $data['nav'] = "Lab Test";
+        $data['subnav'] = "View";
+
+        $this->load->view('dashboard/layout/header',$data);
+        $this->load->view('dashboard/layout/aside',$data);
+        $this->load->view('Lab/view-all-service',$data);
+        $this->load->view('Lab/footer');
+  }
+
   public function View($service_id)
   {
     $data['page_title'] = 'Labortary';

@@ -75,6 +75,13 @@ class Laboratory_model extends CI_Model
         return $result;
     }
 
+    public function view_all_services(){
+        $sql = "SELECT * FROM lab_service ORDER BY created DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
     public function patient_detail($nic){
         $sql = "SELECT * FROM patient WHERE nic = '$nic' LIMIT 1";
         $query = $this->db->query($sql);
@@ -263,6 +270,13 @@ class Laboratory_model extends CI_Model
         
         $this->db->where('id', $lab_service_id);
         $this->db->update('lab_service', $data);
+    }
+
+    public function service_name($service_id){
+        $sql = "SELECT service FROM service WHERE service_id = '$service_id'";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row->service;
     }
 }
 
