@@ -88,7 +88,7 @@
                           ?>
                               <label class="col-sm-2 control-label"><?php echo $row->result_label ; ?></label>
                               <label class="col-sm-2 control-label">:</label>
-                              <div class="col-sm-3"><input type="text" value="" class="form-control inputclass"></div>
+                              <div class="col-sm-3"><input type="text" value="" class="form-control inputclass" required></div>
                               <label class="col-sm-3 control-label"><?php echo $row->result_unit ; ?></label>
                           <?php
                             }

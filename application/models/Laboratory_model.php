@@ -253,14 +253,30 @@ class Laboratory_model extends CI_Model
     }
 
     public function insert_lab_service_result($patient_id,$lab_service_id,$result_label_id,$result_value){
-        $data = array(
-            'patient_id' => $patient_id,
-            'lab_service_id' => $lab_service_id,
-            'result_label_id' => $result_label_id,
-            'result_value' => $result_value,
-        );
-    
-        $this->db->insert('lab_services', $data);
+        $sql = "SELECT id FROM lab_services WHERE lab_service_id = '$lab_service_id'";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        
+        if($row->id > 0)
+        {
+            $data = array(
+                'result_value' => $result_value,
+            );
+            
+            $this->db->where('lab_service_id', $lab_service_id);
+            $this->db->where('result_label_id', $result_label_id);
+            $this->db->update('lab_services', $data);
+        }
+        else
+        {
+            $data = array(
+                'patient_id' => $patient_id,
+                'lab_service_id' => $lab_service_id,
+                'result_label_id' => $result_label_id,
+                'result_value' => $result_value,
+            );
+            $this->db->insert('lab_services', $data);
+        }
     }
 
     public function update_status($lab_service_id){
