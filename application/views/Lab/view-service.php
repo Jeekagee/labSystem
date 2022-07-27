@@ -93,7 +93,8 @@
                           ?>
                         </td>
                         <td class="text-center">
-                          <a href="#" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                          <a href="<?php echo base_url(); ?>Laboratory/edit/<?php echo $service->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+                          <a href="<?php echo base_url(); ?>Laboratory/delete/<?php echo $service->id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                           <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-info btn-xs"><i class="fa-solid fa-flask"></i></a>
                           <?php if($service->result_status == 0){ ?>
                             <a href="#" class="btn btn-success btn-xs" style="pointer-events: none;"><i class="fa fa-print"></i></a>

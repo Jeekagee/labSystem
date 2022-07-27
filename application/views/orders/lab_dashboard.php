@@ -9,6 +9,7 @@
 
 .small-box > .inner {
     padding: 10px;
+    height:60px;
 }
 
 .col-lg-3 .small-box h3, .col-md-3 .small-box h3, .col-xl-3 .small-box h3 {

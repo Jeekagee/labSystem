@@ -134,9 +134,19 @@ class Laboratory_model extends CI_Model
 
     public function delete_service($id)
     {
-        $sql = "DELETE FROM lab_service WHERE id=$id";
+        $sql = "SELECT service_id FROM lab_service WHERE id=$id";
         $query = $this->db->query($sql);
+        $row = $query->first_row();
+        
+        $sql_delete = "DELETE FROM lab_service WHERE id=$id";
+        $query_delete = $this->db->query($sql_delete);
+
+        $sql_deletes = "DELETE FROM lab_services WHERE lab_service_id=$id";
+        $query_deletes = $this->db->query($sql_deletes);
+
+        return $row->service_id;
     }
+    
     public function update_services($invoice_no,$service_id,$location_id,$charge)
     {
         $data = array(
@@ -285,6 +295,18 @@ class Laboratory_model extends CI_Model
         );
         
         $this->db->where('id', $lab_service_id);
+        $this->db->update('lab_service', $data);
+    }
+
+    public function update_service($service_id,$source,$requested,$refer_dr,$center){
+        $data = array(
+            'test_source' => $source,
+            'request_by' => $requested,
+            'refer_doctor' => $refer_dr,
+            'center' => $center,
+        );
+        
+        $this->db->where('id', $service_id);
         $this->db->update('lab_service', $data);
     }
 

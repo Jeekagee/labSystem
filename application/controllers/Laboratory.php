@@ -255,6 +255,24 @@ class Laboratory extends CI_Controller
     redirect($url);
 
   }
+
+  public function updateService(){
+    $service_id = $this->input->post('service_id');
+    $lab_service_id = $this->input->post('lab_service_id');
+
+    $source = $this->input->post('source');
+    $requested = $this->input->post('requested');
+    $refer_dr = $this->input->post('refer_dr');
+    $center = $this->input->post('center');
+    
+    $this->Laboratory_model->update_service($lab_service_id,$source,$requested,$refer_dr,$center);
+    
+    $data['services'] = $this->Laboratory_model->view_services($lab_service_id);
+
+    $url = base_url() . "Laboratory/View/" . $service_id;
+    redirect($url);
+
+  }
   
   public function view_single($service_id){
         $data['page_title'] = 'View';
@@ -283,6 +301,60 @@ class Laboratory extends CI_Controller
         $this->load->view('Lab/view-single-service',$data);
         $this->load->view('Lab/footer');
   }
+
+  public function edit($service_id){
+    $data['page_title'] = 'View';
+    $data['username'] = $this->Dashboard_model->username();
+    // Customer List
+    $data['pendings'] = $this->Booking_model->pending();
+
+    $data['pending_count'] = $this->Dashboard_model->pending_count();
+    $data['confirm_count'] = $this->Dashboard_model->confirm_count();
+
+    $data['invoice_no'] = $this->Laboratory_model->invoice_no();
+    $data['locations'] = $this->Laboratory_model->locations();
+    $data['services'] = $this->Laboratory_model->services();
+    $data['doctors'] = $this->Laboratory_model->doctors();
+
+    $data['titles'] = $this->Laboratory_model->titles();
+    //Get Service Details by service id from url
+    $data['service_data'] = $this->Laboratory_model->single_service($service_id); //103
+
+    $data['nav'] = "Lap Service";
+    $data['subnav'] = "View";
+
+    $this->load->view('dashboard/layout/header',$data);
+    $this->load->view('dashboard/layout/aside',$data);
+    //$this->load->view('aside',$data);
+    $this->load->view('Lab/edit-single-service',$data);
+    $this->load->view('Lab/footer');
+}
+
+public function delete($service_id){
+    $data['page_title'] = 'View';
+    $data['username'] = $this->Dashboard_model->username();
+    // Customer List
+    $data['pendings'] = $this->Booking_model->pending();
+
+    $data['pending_count'] = $this->Dashboard_model->pending_count();
+    $data['confirm_count'] = $this->Dashboard_model->confirm_count();
+
+    $data['invoice_no'] = $this->Laboratory_model->invoice_no();
+    $data['locations'] = $this->Laboratory_model->locations();
+    $data['services'] = $this->Laboratory_model->services();
+    $data['doctors'] = $this->Laboratory_model->doctors();
+
+    $data['titles'] = $this->Laboratory_model->titles();
+
+    $data['nav'] = "Lap Service";
+    $data['subnav'] = "View";
+
+    $service = $this->Laboratory_model->delete_service($service_id);
+    $data['services'] = $this->Laboratory_model->view_services($service);
+
+    $url = base_url() . "Laboratory/View/" . $service;
+    redirect($url);
+}
 
   public function delete_service()
   {
