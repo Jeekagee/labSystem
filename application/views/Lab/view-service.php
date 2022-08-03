@@ -62,7 +62,7 @@
                         <td class="text-center"><?php echo $i; ?></td>
                         <td><?php echo $patient->nic; ?></td>
                         <td><?php echo $patient->name; ?></td>
-                        <td><?php echo $patient->ageyear. " Years " . $patient->agemonth. " Months"; ?></td>
+                        <td><?php echo $service->patient_ageyear. " Years " . $service->patient_agemonth. " Months"; ?></td>
                         <td>
                           <?php
                             if ($patient->gender == 1) 
