@@ -195,15 +195,16 @@
     $(document).ready(function(){
       $("#service").change(function(){
         var service = $(this).val();
-        var location = $("#location").val();
+        //var location = $("#location").val();
         $.ajax({
           url:"<?php echo base_url(); ?>Laboratory/Service_charge",
           type:"POST",
           cache:false,
-          data:{service:service, location:location},
+          data:{service:service},
           success:function(data){
-            //alert(data);
             $("#charge").val(data);
+            $("#add_btn").attr("enabled","enabled");
+            $("#save_btn").attr("disabled","disabled");
           }
         });
       });
@@ -243,27 +244,41 @@
 
     // Add Service for lap test
     function addService(){
+        var nic = $("#nic").val();
+        var name = $("#pname").val();
+        var dob = $("#date").val();
+        var gender = $('input[name=pgender]:checked').val();
+
+        var year = $("#pyear").val();
+        var month = $("#pmonth").val();
         var invoice_no = $("#invoice_no").val();
         var service_id = $("#service").val();
-        var location_id = $("#location").val();
+        var test_date = '';
+        var source = $("#source").val();
+        var requested = $("#requested").val();
+        var dr = $("#doctor").val();
         var charge = $("#charge").val();
+        var center = $("#center").val();
 
+
+        //alert(ref_no);
         if (service_id == "") {
           $("#service_error").html("Please Select Service");
         }
         else{
           $("#service_error").html("");
           $.ajax({
-            url:"<?php echo base_url(); ?>Laboratory/insert_service",
-            type:"POST",
-            cache:false,
-            data:{invoice_no:invoice_no,service_id:service_id,location_id:location_id,charge:charge},
+            url:'<?php echo base_url(); ?>Laboratory/insert_service',
+            type:'post',
+            data:{nic:nic,name:name,dob:dob,gender:gender,year:year,month:month,invoice_no:invoice_no,service_id:service_id,year:year,month:month,test_date:test_date,source:source,requested:requested,dr:dr,charge:charge,center:center
+            },
             success:function(data){
               //alert(data);
               $("#services").html(data);
-              // $('#service').val("");
-              // $("#charge").val("");
-              // $('#submit_btn').show();
+              //$("#add_btn").attr("disabled","disabled");
+               $('#service').val("");
+               $("#charge").val("");
+               $(':input[type="submit"]').prop('disabled', false);
               
             }
           });

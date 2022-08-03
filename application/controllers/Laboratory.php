@@ -21,7 +21,7 @@ class Laboratory extends CI_Controller
         }
   }
 
-  public function Add($service_id)
+  public function Add()
   {
         $data['page_title'] = 'Labortary';
         $data['username'] = $this->Dashboard_model->username();
@@ -38,7 +38,8 @@ class Laboratory extends CI_Controller
 
         $data['titles'] = $this->Laboratory_model->titles();
 
-        $data['service_id'] = $service_id;
+        $data['next_id'] = $this->Laboratory_model->next_id();
+
         $data['nav'] = "Lab Test";
         $data['subnav'] = "Add Services";
 
@@ -95,8 +96,8 @@ class Laboratory extends CI_Controller
 
   public function Service_charge(){
       $service = $this->input->post('service');
-      $location = $this->input->post('location');
-      echo $this->Laboratory_model->service_charge($service,$location);
+      //$location = $this->input->post('location');
+      echo $this->Laboratory_model->service_charge($service);
   }
 
   public function insert(){
@@ -117,8 +118,6 @@ class Laboratory extends CI_Controller
 
             $id = $this->input->post('invoice_no');
             $service_id = $this->input->post('service_id');
-            $test_date = $this->input->post('date');
-            $source = $this->input->post('source');
             $requested = $this->input->post('requestBy');
             $dr = $this->input->post('doctor');
             $center = $this->input->post('center');
@@ -156,12 +155,39 @@ class Laboratory extends CI_Controller
   // Service for Lab test
   public function insert_service()
   {
-    $invoice_no = $this->input->post('invoice_no');
-    $service_id = $this->input->post('service_id');
-    $location_id = $this->input->post('location_id');
-    $charge = $this->input->post('charge');
+    $nic = $this->input->post('nic');
+    $name = $this->input->post('name');
+    $dob = $this->input->post('dob');
+    $gender = $this->input->post('gender');
 
-    $this->Laboratory_model->insert_services($invoice_no,$service_id,$location_id,$charge);
+    $service_id = $this->input->post('service_id');
+    $year = $this->input->post('year');
+    $month = $this->input->post('month');
+    $test_date = '';//$this->input->post('test_date');
+    $source = $this->input->post('source');
+    $requested = $this->input->post('requested');
+    $dr = $this->input->post('dr');
+    $charge = $this->input->post('charge');
+    $center = $this->input->post('center');
+    $invoice_no = $this->input->post('invoice_no');
+
+    if ($this->Appoint_model->patient_available($nic) > 0 && $nic != '')
+    {
+        $patient_id = $this->Appoint_model->get_patient_id($nic);
+    }
+    else
+    {
+        $ref_no = $this->Appoint_model->get_patient_ref_no();
+        $this->Appoint_model->insert_patient($ref_no,$nic,$name,$dob,$gender);
+
+        $patient_id = $this->Appoint_model->get_patient_id(0);
+    }
+
+    $this->Laboratory_model->insert_lab_service($invoice_no,$service_id,$patient_id,$year,$month,$test_date,$source,$requested,$dr,$charge,$center);
+            
+    //$this->session->set_flashdata('labmsg',"<div class='alert alert-success'>Service Added Successfully!</div>");
+
+    //$this->Laboratory_model->insert_services($invoice_no,$service_id,$charge);
     $services = $this->Laboratory_model->addedServices($invoice_no);
     // Service List
     $this->service_list($services);
@@ -175,7 +201,6 @@ class Laboratory extends CI_Controller
         <th class="text-center">No</th>
         <th class="text-center">Service</th>
         <th class="text-right">Amount</th>
-        <th class="text-center">Action</th>
         </thead>
         <tbody>
             <?php
@@ -191,9 +216,8 @@ class Laboratory extends CI_Controller
                     echo $this->Laboratory_model->get_service($service_id);
                     ?>
                 </td>
-                <td class="text-right"><?php echo $charge = $service->charge; ?>.00</td>
-                <td class="text-center"><a  class="btn btn-xs btn-danger delete_service" id="<?php echo $service->id; ?>">Delete</a></td>
-               </tr>
+                <td class="text-right"><?php echo $charge = $service->charge; ?></td>
+            </tr>
                <?php
                $i++;
                $total = $total+$charge;
@@ -203,7 +227,6 @@ class Laboratory extends CI_Controller
                 <td></td>
                 <td class="text-center text-danger" style="font-weight:900;">Total</td>
                 <td class="text-right text-danger" style="font-weight:900;"><?php echo $total; ?>.00</td>
-                <td></td>
             </tr>
             </tbody>
         </table>
@@ -370,11 +393,17 @@ public function delete($service_id){
         
   }
 
-  public function viewprintBill($id){
-    $data['service_data'] = $this->Laboratory_model->single_service($id);
-        
+  public function viewprintBill($id)
+  {
+    $data['service_data'] = $this->Laboratory_model->single_service($id); 
     $this->load->view('Lab/print_bill',$data);
-}
+  }
+
+  public function printBill()
+  {
+    $data['service_data'] = $this->Laboratory_model->single_service_bill(); 
+    $this->load->view('Lab/print_bill',$data);
+  }
 
 public function mobile_search()
 {

@@ -99,12 +99,12 @@ class Appoint_model extends CI_Model
         return $conut = $query->num_rows();
     }
 
-    public function insert_patient($nic,$pname,$ageyear,$agemonth,$gender){
+    public function insert_patient($ref_no,$nic,$name,$dob,$gender){
         $data = array(
-            'name' => $pname,
+            'ref_no' => $ref_no,
             'nic' => $nic,
-            'ageyear' => $ageyear,
-            'agemonth' => $agemonth,
+            'name' => $name,
+            'dob' => $dob,
             'gender' => $gender
         );
     
@@ -214,5 +214,22 @@ class Appoint_model extends CI_Model
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row->id;
+    }
+
+    public function get_patient_ref_no(){
+        $sql = "SELECT ref_no FROM patient ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        $conut = $query->num_rows();
+        $row = $query->first_row();
+        if($conut > 0)
+        {
+            $ref_no = $row->ref_no + 1;
+        }
+        else
+        {
+            $ref_no = 00001;
+        }
+        
+        return $ref_no;
     }
 }

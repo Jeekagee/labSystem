@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Laboratory_model extends CI_Model 
 {
     public function invoice_no(){
-        $sql = "SELECT id FROM lab_service ORDER BY created DESC";
+        $sql = "SELECT id FROM lab_service ORDER BY id DESC";
         $query = $this->db->query($sql);
         $conut = $query->num_rows();
         $row = $query->first_row();
@@ -15,7 +15,22 @@ class Laboratory_model extends CI_Model
         else{
             return $row->id+1;
         }
-    }   
+    } 
+
+    public function next_id(){
+        $sql = "SELECT id FROM lab_service ORDER BY id DESC";
+        $query = $this->db->query($sql);
+        $conut = $query->num_rows();
+        $row = $query->first_row();
+
+        if ($conut == 0) {
+            return 1;
+        }
+        else{
+            return $row->id+1;
+        }
+    } 
+      
     
     public function locations(){
         $sql = "SELECT * FROM location";
@@ -45,22 +60,33 @@ class Laboratory_model extends CI_Model
         return $result;
     }
 
-    public function service_charge($service,$location){
-        $sql = "SELECT * FROM service_amount WHERE service_id = $service AND location_id = $location";
+    public function service_charge($service){
+        $sql = "SELECT * FROM service_amount WHERE service_id = $service ORDER BY id DESC";
         $query = $this->db->query($sql);
+        $conut = $query->num_rows();
         $row = $query->first_row();
-        return $row->amount;
+        if($conut > 0)
+        {
+            return $row->amount;
+        } 
+        else
+        {
+            return 0;
+        }
     }
 
-    public function insert_lab_service($id,$service_id,$patient_id,$test_date,$source,$requested,$dr,$center){
+    public function insert_lab_service($invoice_no,$service_id,$patient_id,$year,$month,$test_date,$source,$requested,$dr,$charge,$center){
         $data = array(
-            'invoice_no' => $id,
+            'invoice_no' => $invoice_no,
             'service_id' => $service_id,
             'patient_id' => $patient_id,
+            'patient_ageyear' => $year,
+            'patient_agemonth' => $month,
             'test_date' => $test_date,
             'test_source' => $source,
             'request_by' => $requested,
             'refer_doctor' => $dr,
+            'charge' => $charge,
             'center' => $center,
             'result_status' => 0,
         );
@@ -112,6 +138,13 @@ class Laboratory_model extends CI_Model
 
     public function single_service($id){
         $sql = "SELECT * FROM lab_service WHERE id = $id LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row;
+    }
+
+    public function single_service_bill(){
+        $sql = "SELECT * FROM lab_service ORDER BY id DESC";
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row;
@@ -177,15 +210,15 @@ class Laboratory_model extends CI_Model
     }
     public function addedServices($invoice_no)
     {
-        $sql = "SELECT * FROM lab_services WHERE invoice_no = $invoice_no ORDER BY created DESC";
+        $sql = "SELECT * FROM lab_service WHERE invoice_no = $invoice_no";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;
     }
 
-    public function is_service($invoice_no)
+    public function is_service()
     {
-        $sql = "SELECT id FROM lab_services WHERE invoice_no = $invoice_no";
+        $sql = "SELECT service_id FROM service";
         $query = $this->db->query($sql);
         return $query->num_rows();
     }
@@ -236,6 +269,13 @@ class Laboratory_model extends CI_Model
 
     public function patient_detail_by_id($id){
         $sql = "SELECT * FROM patient WHERE id = '$id' LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row;
+    }
+
+    public function patient_current_age($invoice_no){
+        $sql = "SELECT * FROM lab_service WHERE invoice_no = '$invoice_no' LIMIT 1";
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row;

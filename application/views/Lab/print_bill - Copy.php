@@ -47,8 +47,7 @@
                   <?php
                     $CI =& get_instance();
                     $patient_id = $service_data->patient_id;
-                    $patient = $CI->Laboratory_model->patient_detail_by_id($patient_id); 
-                    $patient_current_age = $CI->Laboratory_model->patient_current_age($service_data->invoice_no);
+                    $patient = $CI->Laboratory_model->patient_detail_by_id($patient_id); //70
                   ?>
 
                         <div class="form-group row">
@@ -73,7 +72,15 @@
                             </div>
                             <div class="col-sm-1"></div>
                             <div class="col-sm-3"><h4>Age</h4></div>
-                            <div class="col-sm-3"><h4>: <?php echo $patient_current_age->patient_ageyear." Years ".$patient_current_age->patient_agemonth. " Months"; ?></h4></div>
+                            <div class="col-sm-3"><h4>: <?php echo $patient->ageyear." Years ".$patient->agemonth. " Months"; ?></h4></div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-sm-2"><h4>Test Date</h4></div>
+                            <div class="col-sm-3"><h4>: <?php echo $service_data->test_date; ?></h4></div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-3"><h4>Source</h4></div>
+                            <div class="col-sm-3"><h4>: <?php echo $service_data->test_source; ?></h4></div>
                         </div>
                         
                         <div class="form-group row">
@@ -89,46 +96,64 @@
                             <div class="col-sm-3"><h4>: <?php echo $service_data->center; ?></h4></div>
                         </div>
 
-                        <div class="form-group">
-                            <?php
-                            $CI =& get_instance();
-                              $services = $CI->Laboratory_model->addedServices($service_data->invoice_no);
-                              ?>
-                              <table class="table table-hover">
-                                <thead>
-                                <th class="text-center">No</th>
-                                <th class="text-center">Service</th>
-                                <th class="text-right">Amount</th>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $i = 1;
-                                    $total = 0;
-                                    foreach ($services as $service) {
-                                      ?>
-                                      <tr id="row<?php echo $service->id; ?>">
-                                        <td class="text-center"><?php echo $i; ?></td>
-                                        <td class="text-center">
-                                          <?php 
-                                          $service_id = $service->service_id;
-                                          echo $this->Laboratory_model->get_service($service_id);
-                                          ?>
-                                        </td>
-                                        <td class="text-right"><?php echo $charge = $service->charge; ?></td>
-                                        </tr>
-                                      <?php
-                                      $i++;
-                                      $total = $total+$charge;
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td></td>
-                                        <td class="text-center text-danger" style="font-weight:900;">Total</td>
-                                        <td class="text-right text-danger" style="font-weight:900;"><?php echo $total; ?></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        <hr><br>
+
+                        <div class="form-group row">
+                          <div class="col-sm-5"><h2>Test Description</h2></div>
+                          <div class="col-sm-1"></div>
+                          <div class="col-sm-3"><h2>Result</h2></div>
+                          <div class="col-sm-3"><h2></h2></div>
                         </div>
+                      
+                        <?php
+                          $result_labels = $CI->Laboratory_model->get_result($service_data->service_id, $service_data->id);
+                          $ref_labels = $CI->Laboratory_model->get_ref_labels($service_data->service_id);
+                          
+                          foreach($result_labels as $row)
+                          {
+                        ?>
+                        <div class="form-group row">
+                          <?php
+                            if($row->is_input == 0)
+                            {
+                          ?>
+                              <div class="col-sm-5"><h4><?php echo $row->result_label ; ?></h4></div>
+                          <?php
+                            }
+                            else
+                            {
+                          ?>
+                              <div class="col-sm-5"><h4><?php echo $row->result_label ; ?></h4></div>
+                              <div class="col-sm-1"><h4> : </h4></div>
+                              <div class="col-sm-3"><h4><?php echo $row->result_value ; ?></h4></div>
+                              <div class="col-sm-3"><h4></h4></div>
+                          <?php
+                            }
+                          ?>
+                            
+                        </div>
+                        <?php
+                          }
+                        ?>
+
+                          <hr><br>
+                          <div class="form-group row">
+                            <div class="col-sm-5"><h2>Reference Range</h2></div>
+                          </div>
+                        <?php
+                          foreach($ref_labels as $row)
+                          {
+                        ?>
+                        <div class="form-group row">
+                            <div class="col-sm-5"><h4><?php echo $row->ref_label ; ?></h4></div>
+                            <div class="col-sm-1"><h4> : </h4></div>
+                            <div class="col-sm-3"><h4><?php echo $row->ref_value." ".$row->ref_unit ; ?></h4></div>
+                            <div class="col-sm-3"><h4></h4></div>
+                        </div>
+                        <?php
+                          }
+                        ?>
+
                       </div>
                     </div>
             </div>
