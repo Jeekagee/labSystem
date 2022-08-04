@@ -314,6 +314,7 @@
       }); 
     });
 
+    /*
     $(document).ready(function(){
           var invoice_no = $("#invoice_no").val();
           $.ajax({
@@ -328,9 +329,26 @@
               $('#amount').val("");
             }
           });
-    }); 
+    }); */
 
   </script>
+
+<script>
+    $(document).ready(function () {
+        $(".openDialog").click(function () {
+          $.ajax({
+            url:'<?php echo base_url(); ?>Laboratory/load_data',
+            type:'post',
+            data:{invoice:$(this).data('invoice')},
+            success:function(data){
+              $("#load_data_table").html(data);
+            }
+          });
+          $('#exampleModal').modal('show');
+        });
+    });
+  </script>
+
 </body>
 
 </html>

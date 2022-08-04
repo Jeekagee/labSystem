@@ -436,6 +436,52 @@ public function patient_address(){
     $mobile = $this->input->post('mobile');
     echo $this->Laboratory_model->patient_address($mobile);
 }
+
+public function load_data()
+{
+    $services = $this->Laboratory_model->get_services($this->input->post('invoice'));
+    $i = 1;
+?>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Service Name</th>
+                <th>Status</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($services as $row)
+                {
+            ?>
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo $row->service; ?></td>
+                <td>
+                    <?php if($row->result_status == 0){ echo "Pending"; } else { echo "Completed"; } ?>
+                </td>
+                <td class="text-center">
+                    <a href="<?php echo base_url(); ?>Laboratory/edit/<?php echo $row->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a>
+                    <a href="<?php echo base_url(); ?>Laboratory/delete/<?php echo $row->id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                    <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $row->id; ?>" class="btn btn-info btn-xs"><i class="fa-solid fa-flask"></i></a>
+                    <?php if($row->result_status == 0){ ?>
+                    <a href="#" class="btn btn-success btn-xs" style="pointer-events: none;"><i class="fa fa-print"></i></a>
+                    <?php } else { ?>
+                    <a href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $row->id;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
+                    <?php } ?>
+                </td>
+            </tr>
+            <?php
+                $i = $i + 1;
+                }
+            ?>
+        </tbody>
+    </table>
+<?php
+}
+
 }
 
 

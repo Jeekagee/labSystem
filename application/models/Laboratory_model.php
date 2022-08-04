@@ -102,7 +102,14 @@ class Laboratory_model extends CI_Model
     }
 
     public function view_all_services(){
-        $sql = "SELECT * FROM lab_service ORDER BY created DESC";
+        $sql = "SELECT *, count(id) as counts FROM lab_service GROUP BY invoice_no ORDER BY created DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
+    public function get_services($invoice){
+        $sql = "SELECT lab_service.*, service.service FROM lab_service,service WHERE lab_service.service_id = service.service_id AND invoice_no = $invoice";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;

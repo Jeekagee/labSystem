@@ -123,7 +123,7 @@
                           <div class="col-sm-8">
                             <input type="submit" class="btn btn-primary pull-right mr-5" value="Save" name="save_item">
                             <!--<a href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $service_data->service_id;?>" class="btn btn-success">Print</a>-->
-                            <a style="margin-right: 15px;" href="<?php echo base_url();?>Laboratory/View/<?php echo $service_data->service_id; ?>" class="pull-right btn btn-danger">Cancel</a>
+                            <a style="margin-right: 15px;" href="<?php echo base_url();?>Laboratory/AllServices" class="pull-right btn btn-danger">Cancel</a>
                           </div>
                         </div>
                       </div>
