@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-sm-1"></div>
                             <div class="col-sm-3"><h4>Age</h4></div>
-                            <div class="col-sm-3"><h4>: <?php echo $patient->ageyear." Years ".$patient->agemonth. " Months"; ?></h4></div>
+                            <div class="col-sm-3"><h4>: <?php echo $service_data->patient_ageyear." Years ".$service_data->patient_agemonth. " Months"; ?></h4></div>
                         </div>
                         
                         <div class="form-group row">

@@ -272,7 +272,7 @@ class Laboratory extends CI_Controller
     
     $this->Laboratory_model->update_status($lab_service_id);
     
-    $data['service_data'] = $this->Laboratory_model->single_service($lab_service_id);
+    //$data['service_data'] = $this->Laboratory_model->single_service($lab_service_id);
 
     $url = base_url() . "Laboratory/AllServices";
     redirect($url);
@@ -396,7 +396,7 @@ public function delete($service_id){
   public function viewprintBill($id)
   {
     $data['service_data'] = $this->Laboratory_model->single_service($id); 
-    $this->load->view('Lab/print_bill',$data);
+    $this->load->view('Lab/print_test_result',$data);
   }
 
   public function printBill()
