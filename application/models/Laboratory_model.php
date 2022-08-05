@@ -310,7 +310,7 @@ class Laboratory_model extends CI_Model
     }
 
     public function insert_lab_service_result($patient_id,$lab_service_id,$result_label_id,$result_value){
-        $sql = "SELECT * FROM lab_services WHERE lab_service_id = '$lab_service_id'";
+        $sql = "SELECT * FROM lab_services WHERE lab_service_id = $lab_service_id AND result_label_id = $result_label_id";
         $query = $this->db->query($sql);
         $conut = $query->num_rows();
         $row = $query->first_row();
