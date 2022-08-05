@@ -274,7 +274,7 @@ class Laboratory extends CI_Controller
     
     $data['service_data'] = $this->Laboratory_model->single_service($lab_service_id);
 
-    $url = base_url() . "Laboratory/viewprintBill/" . $lab_service_id;
+    $url = base_url() . "Laboratory/AllServices";
     redirect($url);
 
   }
@@ -292,7 +292,7 @@ class Laboratory extends CI_Controller
     
     $data['services'] = $this->Laboratory_model->view_services($lab_service_id);
 
-    $url = base_url() . "Laboratory/View/" . $service_id;
+    $url = base_url() . "Laboratory/AllServices";
     redirect($url);
 
   }
@@ -375,7 +375,7 @@ public function delete($service_id){
     $service = $this->Laboratory_model->delete_service($service_id);
     $data['services'] = $this->Laboratory_model->view_services($service);
 
-    $url = base_url() . "Laboratory/View/" . $service;
+    $url = base_url() . "Laboratory/AllServices";
     redirect($url);
 }
 
@@ -439,6 +439,8 @@ public function patient_address(){
 
 public function load_data()
 {
+    $user_level = $this->session->user_level;
+
     $services = $this->Laboratory_model->get_services($this->input->post('invoice'));
     $i = 1;
 ?>
@@ -464,9 +466,18 @@ public function load_data()
                 </td>
                 <td class="text-center">
                     <a href="<?php echo base_url(); ?>Laboratory/edit/<?php echo $row->id; ?>" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i></a>
+                    <?php 
+                    if($user_level == 1) { 
+                    ?>
                     <a href="<?php echo base_url(); ?>Laboratory/delete/<?php echo $row->id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                    <?php 
+                    } 
+                    if($user_level == 2) { 
+                    ?>
                     <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $row->id; ?>" class="btn btn-info btn-xs"><i class="fa-solid fa-flask"></i></a>
-                    <?php if($row->result_status == 0){ ?>
+                    <?php 
+                    }
+                    if($row->result_status == 0){ ?>
                     <a href="#" class="btn btn-success btn-xs" style="pointer-events: none;"><i class="fa fa-print"></i></a>
                     <?php } else { ?>
                     <a href="<?php echo base_url();?>Laboratory/viewprintBill/<?php echo $row->id;?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i></a>
