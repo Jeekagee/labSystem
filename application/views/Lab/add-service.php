@@ -73,11 +73,11 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Age</label>
                             <div class="col-sm-4">
-                            <input type="number" value="<?php echo set_value('pyear'); ?>" class="form-control" name="pyear" id="pyear">
+                            <input type="number" value="<?php echo set_value('pyear'); ?>" class="form-control" name="pyear" id="pyear" readonly>
                             <label for="pyear">Years</label>
                             </div>
                             <div class="col-sm-4">  
-                            <input type="number" value="<?php echo set_value('pmonth'); ?>" class="form-control" name="pmonth" id="pmonth" max="12">
+                            <input type="number" value="<?php echo set_value('pmonth'); ?>" class="form-control" name="pmonth" id="pmonth" readonly>
                             <label for="pmonth">Months</label>
                             </div>
                         </div>

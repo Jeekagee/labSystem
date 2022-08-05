@@ -346,6 +346,34 @@
           });
           $('#exampleModal').modal('show');
         });
+
+        $("#date").change(function(){
+          var dob = new Date($("#date").val());
+          var dob_year = dob.getFullYear();
+          var dob_month = dob.getMonth()+1;
+
+          var today = new Date();
+          var today_year = today.getFullYear();
+          var today_month = today.getMonth()+1;
+
+          var age_year = 0;
+          var age_month = 0;
+
+          if(dob_month > today_month)
+          {
+            age_year = today_year - dob_year - 1;
+            age_month = 12 - dob_month + today_month;
+          }
+          else
+          {
+            age_year = today_year - dob_year;
+            age_month = today_month - dob_month;
+          }
+          
+          $('#pyear').val(age_year);
+          $('#pmonth').val(age_month);
+
+        });
     });
   </script>
 
