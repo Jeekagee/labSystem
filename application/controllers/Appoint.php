@@ -217,9 +217,14 @@ class Appoint extends CI_Controller {
         echo $this->Appoint_model->patient_mobile($nic);
     }
 
-    public function patient_address(){
+    public function patient_gender(){
         $nic = $this->input->post('nic');
-        echo $this->Appoint_model->patient_address($nic);
+        echo $this->Appoint_model->patient_gender($nic);
+    }
+
+    public function patient_dob(){
+        $nic = $this->input->post('nic');
+        echo $this->Appoint_model->patient_dob($nic);
     }
 
     public function view(){

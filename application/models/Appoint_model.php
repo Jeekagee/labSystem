@@ -99,13 +99,14 @@ class Appoint_model extends CI_Model
         return $conut = $query->num_rows();
     }
 
-    public function insert_patient($ref_no,$nic,$name,$dob,$gender){
+    public function insert_patient($ref_no,$nic,$name,$dob,$gender,$mobile){
         $data = array(
             'ref_no' => $ref_no,
             'nic' => $nic,
             'name' => $name,
             'dob' => $dob,
-            'gender' => $gender
+            'gender' => $gender,
+            'mobile_no' => $mobile,
         );
     
         $this->db->insert('patient', $data);
@@ -134,17 +135,31 @@ class Appoint_model extends CI_Model
     }
 
     public function patient_mobile($nic){
-        $sql = "SELECT mobile FROM patient WHERE nic = '$nic'";
+        $sql = "SELECT mobile_no FROM patient WHERE nic = '$nic'";
         $query = $this->db->query($sql);
         $row = $query->first_row();
-        return $row->mobile;
+        return $row->mobile_no;
     }
 
-    public function patient_address($nic){
-        $sql = "SELECT address FROM patient WHERE nic = '$nic'";
+    public function patient_gender($nic){
+        $sql = "SELECT gender FROM patient WHERE nic = '$nic'";
         $query = $this->db->query($sql);
         $row = $query->first_row();
-        return $row->address;
+        if($row->gender == 1)
+        {
+            return "male";
+        }
+        else
+        {
+            return "female";
+        }
+    }
+
+    public function patient_dob($nic){
+        $sql = "SELECT dob FROM patient WHERE nic = '$nic'";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row->dob;
     }
 
     public function doctor_name($id){

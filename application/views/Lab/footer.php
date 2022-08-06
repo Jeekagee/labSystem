@@ -55,7 +55,9 @@
 
         $("#pname").val("");
         $("#mobile").val("");
-        $("#address").val("");
+        $("#date").val("");
+        $("#pyear").val("");
+        $("#pmonth").val("");
 
         var nic = $(this).val();
         if (nic !== "") {
@@ -78,7 +80,7 @@
 
 
       // Mobile number search  function
-      $("#mobile").on("keyup", function(){
+      /*$("#mobile").on("keyup", function(){
         $("#pname").val("");
         $("#nic").val("");
         $("#address").val("");
@@ -100,11 +102,11 @@
           $("#mobile_list").html("");
           $("#mobile_list").fadeOut();
         }
-      });
+      });*/
       //End Mobile search
 
       // Data for mobile 
-      $(document).on("click","#mobile_list li", function(){
+      /*$(document).on("click","#mobile_list li", function(){
 
         $('#mobile').val($(this).text());
         $('#mobile_list').fadeOut("fast");
@@ -142,7 +144,7 @@
             //alert(data);
           }
         });
-      });
+      });*/
         //End
 
       // click one particular city name it's fill in textbox
@@ -172,18 +174,51 @@
           data:{nic:nic},
           success:function(data){
             $("#mobile").val(data);
-            //alert(data);
           }
         });
 
         $.ajax({
-          url:"<?php echo base_url(); ?>Appoint/patient_address",
+          url:"<?php echo base_url(); ?>Appoint/patient_gender",
           type:"POST",
           cache:false,
           data:{nic:nic},
           success:function(data){
-            $("#address").val(data);
-            //alert(data);
+            $('#' + data).prop('checked',true);
+          }
+        });
+        
+        $.ajax({
+          url:"<?php echo base_url(); ?>Appoint/patient_dob",
+          type:"POST",
+          cache:false,
+          data:{nic:nic},
+          success:function(data){
+            $("#date").val(data);
+
+            var dob = new Date(data);
+            var dob_year = dob.getFullYear();
+            var dob_month = dob.getMonth()+1;
+
+            var today = new Date();
+            var today_year = today.getFullYear();
+            var today_month = today.getMonth()+1;
+
+            var age_year = 0;
+            var age_month = 0;
+
+            if(dob_month > today_month)
+            {
+              age_year = today_year - dob_year - 1;
+              age_month = 12 - dob_month + today_month;
+            }
+            else
+            {
+              age_year = today_year - dob_year;
+              age_month = today_month - dob_month;
+            }
+            
+            $('#pyear').val(age_year);
+            $('#pmonth').val(age_month);
           }
         });
       });
@@ -248,6 +283,7 @@
         var name = $("#pname").val();
         var dob = $("#date").val();
         var gender = $('input[name=pgender]:checked').val();
+        var mobile = $("#mobile").val();
 
         var year = $("#pyear").val();
         var month = $("#pmonth").val();
@@ -270,7 +306,7 @@
           $.ajax({
             url:'<?php echo base_url(); ?>Laboratory/insert_service',
             type:'post',
-            data:{nic:nic,name:name,dob:dob,gender:gender,year:year,month:month,invoice_no:invoice_no,service_id:service_id,year:year,month:month,test_date:test_date,source:source,requested:requested,dr:dr,charge:charge,center:center
+            data:{nic:nic,name:name,dob:dob,gender:gender,mobile:mobile,year:year,month:month,invoice_no:invoice_no,service_id:service_id,year:year,month:month,test_date:test_date,source:source,requested:requested,dr:dr,charge:charge,center:center
             },
             success:function(data){
               //alert(data);

@@ -160,6 +160,8 @@ class Laboratory extends CI_Controller
     $dob = $this->input->post('dob');
     $gender = $this->input->post('gender');
 
+    $mobile = $this->input->post('mobile');
+
     $service_id = $this->input->post('service_id');
     $year = $this->input->post('year');
     $month = $this->input->post('month');
@@ -178,7 +180,7 @@ class Laboratory extends CI_Controller
     else
     {
         $ref_no = $this->Appoint_model->get_patient_ref_no();
-        $this->Appoint_model->insert_patient($ref_no,$nic,$name,$dob,$gender);
+        $this->Appoint_model->insert_patient($ref_no,$nic,$name,$dob,$gender,$mobile);
 
         $patient_id = $this->Appoint_model->get_patient_id(0);
     }

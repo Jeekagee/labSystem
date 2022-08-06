@@ -4,17 +4,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Laboratory_model extends CI_Model 
 {
     public function invoice_no(){
-        $sql = "SELECT id FROM lab_service ORDER BY id DESC";
+        $sql = "SELECT invoice_no FROM lab_service ORDER BY id DESC";
         $query = $this->db->query($sql);
         $conut = $query->num_rows();
         $row = $query->first_row();
 
         if ($conut == 0) {
-            return 1;
+            $next_invoice = 1;
         }
         else{
-            return $row->id+1;
+            $next_invoice = $row->invoice_no+1;
         }
+
+        $num = sprintf("%06d", $next_invoice);
+        return $num;
     } 
 
     public function next_id(){

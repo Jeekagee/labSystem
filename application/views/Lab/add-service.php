@@ -29,8 +29,8 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Invoice No</label>
                             <div class="col-sm-8">
-                            <input type="hidden" value="<?php echo $next_id; ?>" class="form-control" name="next_id" id="next_id" readonly >
-                            <input type="text" value="<?php echo $invoice_no; ?>" class="form-control" name="invoice_no" id="invoice_no" >
+                            <input type="hidden" value="<?php echo $next_id; ?>" class="form-control" name="next_id" id="next_id">
+                            <input type="text" value="<?php echo $invoice_no; ?>" class="form-control" name="invoice_no" id="invoice_no" readonly>
                             </div>
                         </div>
 
@@ -79,6 +79,13 @@
                             <div class="col-sm-4">  
                             <input type="number" value="<?php echo set_value('pmonth'); ?>" class="form-control" name="pmonth" id="pmonth" readonly>
                             <label for="pmonth">Months</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Mobile No</label>
+                            <div class="col-sm-8">
+                            <input type="text" class="form-control" value="<?php echo set_value('mobile'); ?>" name="mobile" id="mobile">
                             </div>
                         </div>
 
