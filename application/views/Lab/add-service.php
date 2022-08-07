@@ -100,8 +100,14 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Center</label>
                             <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('center'); ?>" class="form-control" name="center" id="center">
-                            <span class="text-danger"><?php echo form_error('center'); ?></span>
+                              <select id="doctor" class="form-control" name="center" id="center">
+                                <option value="">Select Center</option>
+                                <?php
+                                foreach ($locations as $location) {
+                                    echo "<option value='$location->location'>$location->location</option>";
+                                }
+                                ?>
+                              </select>
                             </div>
                         </div>
 

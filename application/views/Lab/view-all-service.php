@@ -64,6 +64,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                     <th>Age</th>
                     <th>Gender</th>
                     <th style="text-align:center;">Service</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -97,6 +98,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
                         <td style="text-align:center;">
                           <button type="button" class="btn btn-xs btn-primary openDialog" data-invoice="<?php echo $service->invoice_no;?>" data-keyboard="false" data-toggle="modal" data-target="#exampleModal"><?php echo $service->counts; ?></button>
                         </td>
+                        <td>
+                          <?php 
+                            $pending_count = $CI->Laboratory_model->services_status($service->invoice_no, 0); 
+                            $completed_count = $CI->Laboratory_model->services_status($service->invoice_no, 1); 
+                          ?>
+                          <font color="red"><?php if($pending_count > 0){ echo $pending_count . " Pending "; } ?></font>
+                          <?php if($completed_count > 0){ echo $completed_count . " Completed"; } ?>
+                        </td>
                       </tr>
                     <?php
                     $i++;
@@ -105,16 +114,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 </tbody>
               </table>
 
-
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog" role="document">
-                  <div class="modal-content" id="load_data_table">
-                  
-                  </div>
+                  <div class="modal-content" id="load_data_table"></div>
               </div>
               </div>
-
-
             </div>
           </div>
         </div>

@@ -185,7 +185,10 @@ class Laboratory extends CI_Controller
         $patient_id = $this->Appoint_model->get_patient_id(0);
     }
 
-    $this->Laboratory_model->insert_lab_service($invoice_no,$service_id,$patient_id,$year,$month,$test_date,$source,$requested,$dr,$charge,$center);
+    if ($this->Laboratory_model->service_available($invoice_no,$service_id,$patient_id) == 0)
+    {
+        $this->Laboratory_model->insert_lab_service($invoice_no,$service_id,$patient_id,$year,$month,$test_date,$source,$requested,$dr,$charge,$center);
+    }
             
     //$this->session->set_flashdata('labmsg',"<div class='alert alert-success'>Service Added Successfully!</div>");
 
