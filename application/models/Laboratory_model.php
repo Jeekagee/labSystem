@@ -153,8 +153,8 @@ class Laboratory_model extends CI_Model
         return $row;
     }
 
-    public function single_service_bill(){
-        $sql = "SELECT * FROM lab_service ORDER BY id DESC";
+    public function single_service_bill($invoice){
+        $sql = "SELECT * FROM lab_service WHERE invoice_no = $invoice";
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row;

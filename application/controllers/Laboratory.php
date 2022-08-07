@@ -152,6 +152,11 @@ class Laboratory extends CI_Controller
         }
   }
 
+  public function submit()
+  {
+    $url = base_url() . "Laboratory/AllServices";
+    redirect($url);
+  }
   // Service for Lab test
   public function insert_service()
   {
@@ -404,9 +409,9 @@ public function delete($service_id){
     $this->load->view('Lab/print_test_result',$data);
   }
 
-  public function printBill()
+  public function printBill($invoice)
   {
-    $data['service_data'] = $this->Laboratory_model->single_service_bill(); 
+    $data['service_data'] = $this->Laboratory_model->single_service_bill($invoice); 
     $this->load->view('Lab/print_bill',$data);
   }
 
@@ -446,7 +451,8 @@ public function load_data()
 {
     $user_level = $this->session->user_level;
 
-    $services = $this->Laboratory_model->get_services($this->input->post('invoice'));
+    $invoice = $this->input->post('invoice');
+    $services = $this->Laboratory_model->get_services($invoice);
     $i = 1;
 ?>
     <table class="table">
@@ -493,6 +499,14 @@ public function load_data()
                 $i = $i + 1;
                 }
             ?>
+            <tr>         
+                <td colspan="2" style="text-align:center;"><br><a href="<?php echo base_url();?>Laboratory/printBill/<?php echo $invoice; ?>" class="btn btn-info">Print Bill</a></td>
+                <td colspan="2" style="text-align:center;"><br>
+                <?php if($user_level == 1) { ?>
+                    <a href="#" class="btn btn-info">Add More Services</a>
+                <?php } ?>
+                </td>
+            </tr>
         </tbody>
     </table>
 <?php

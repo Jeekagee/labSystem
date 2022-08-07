@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Center</label>
                             <div class="col-sm-8">
-                              <select id="doctor" class="form-control" name="center" id="center">
+                              <select class="form-control" name="center" id="center">
                                 <option value="">Select Center</option>
                                 <?php
                                 foreach ($locations as $location) {
@@ -112,8 +112,23 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Refer Doctor</label>
+                            <div class="col-sm-8">
+                              <select id="doctor" class="form-control" name="doctor">
+                                <option value="">Select Doctor</option>
+                                <?php
+                                foreach ($doctors as $doctor) {
+                                    echo "<option value='$doctor->id'>$doctor->name</option>";
+                                }
+                                ?>
+                              </select>
+                              <span class="text-danger"><?php echo form_error('doctor'); ?></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                           <label class="col-sm-3 control-label">Service<span style="color: red;"> *</span></label>
-                          <div class="col-sm-3">
+                          <div class="col-sm-4">
                               <select id="service" class="form-control" name="service">
                                 <option value="">Select Service</option>
                                 <?php
@@ -124,18 +139,8 @@
                               </select>
                               <span class="text-danger" id="service_error"></span>
                           </div>
-                          <div class="col-sm-3">
-                            <select id="doctor" class="form-control" name="doctor">
-                                <option value="">Select Doctor</option>
-                                <?php
-                                foreach ($doctors as $doctor) {
-                                    echo "<option value='$doctor->id'>$doctor->name</option>";
-                                }
-                                ?>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('doctor'); ?></span>
-                          </div>
-                          <div class="col-sm-2">
+                          
+                          <div class="col-sm-4">
                             <input type="text" class="form-control" id="charge" name="charge" readonly>
                             <span class="text-danger"><?php echo form_error('charge'); ?></span>
                           </div>
@@ -212,7 +217,7 @@
                           <div class="col-sm-8">
                             <!--<input id="save_btn" type="submit" class="btn btn-primary pull-right mr-5" value="Save" name="save_item">
                             <a style="margin-right: 15px;" href="" class="pull-right btn btn-danger">Cancel</a>-->
-                            <a href="<?php echo base_url();?>Laboratory/printBill" class="btn btn-success btn-sm">Print</a>
+                            <a href="<?php echo base_url();?>Laboratory/submit" class="btn btn-primary pull-right mr-5">Save</a>
                           </div>
                         </div>
 
@@ -386,7 +391,6 @@
       </div>
       </form>
     </div>
-
   </div>
 </div>
 <!-- Catogery Modal -->
