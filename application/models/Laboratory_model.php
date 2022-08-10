@@ -153,8 +153,8 @@ class Laboratory_model extends CI_Model
         return $row;
     }
 
-    public function single_service_bill(){
-        $sql = "SELECT * FROM lab_service ORDER BY id DESC";
+    public function single_service_bill($invoice){
+        $sql = "SELECT * FROM lab_service WHERE invoice_no = $invoice";
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row;
@@ -366,6 +366,27 @@ class Laboratory_model extends CI_Model
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row->service;
+    }
+
+    public function service_available($invoice_no,$service_id,$patient_id){
+        $sql = "SELECT id FROM lab_service WHERE invoice_no = $invoice_no AND service_id = $service_id AND patient_id = $patient_id";
+        $query = $this->db->query($sql);
+        $conut = $query->num_rows();
+
+        if($conut > 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public function services_status($invoice_no, $status){
+        $sql = "SELECT * FROM lab_service WHERE invoice_no = $invoice_no AND result_status = $status";
+        $query = $this->db->query($sql);
+        return $conut = $query->num_rows();
     }
 }
 
