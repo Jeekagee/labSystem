@@ -127,10 +127,9 @@ class Setting_model extends CI_Model
         $this->db->update('service', $data);
     }
 
-    public function insert_service_amount($service_id,$location_id,$amount){
+    public function insert_service_amount($service_id,$amount){
         $data = array(
             'service_id' => $service_id,
-            'location_id' => $location_id,
             'amount' => $amount
         );
         $this->db->insert('service_amount', $data);
