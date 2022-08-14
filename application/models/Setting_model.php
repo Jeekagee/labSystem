@@ -5,7 +5,7 @@ class Setting_model extends CI_Model
 {
     public function services(){
         
-        $sql = "SELECT * FROM service ORDER BY service ASC";
+        $sql = "SELECT service.*,service_amount.amount  FROM service,service_amount WHERE service.service_id = service_amount.service_id ORDER BY service ASC";
         $query = $this->db->query($sql);
         $result = $query->result();
 
@@ -23,14 +23,16 @@ class Setting_model extends CI_Model
 
     public function location_amount($location_id,$service_id){
         
-        $sql = "SELECT * FROM service_amount WHERE service_id = $service_id AND location_id = $location_id ";
+        //$sql = "SELECT * FROM service_amount WHERE service_id = $service_id AND location_id = $location_id ";
+        $sql = "SELECT * FROM amount WHERE service_id = $service_id";
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row->amount;
     }
 
     public function location_avaiable($location_id,$service_id){
-        $sql = "SELECT * FROM service_amount WHERE service_id = $service_id AND location_id = $location_id ";
+        //$sql = "SELECT * FROM service_amount WHERE service_id = $service_id AND location_id = $location_id ";
+        $sql = "SELECT * FROM amount WHERE service_id = $service_id";
         $query = $this->db->query($sql);
         return $count = $query->num_rows();
     }

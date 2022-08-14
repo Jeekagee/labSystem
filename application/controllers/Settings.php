@@ -367,6 +367,7 @@ class Settings extends CI_Controller {
             $this->AddService();
         }
         else{
+            /*
             $service = $this->input->post('service');
             $this->Setting_model->insert_services($service);
             $locations = $this->Setting_model->locations();
@@ -378,6 +379,14 @@ class Settings extends CI_Controller {
                 $amount = $_POST[$location_amount];
                 $this->Setting_model->insert_service_amount($service_id,$location_id,$amount);
             }
+            */
+
+            $service = $this->input->post('service');
+            $amount = $this->input->post('amount');
+            $this->Setting_model->insert_services($service);
+            $service_id = $this->Setting_model->last_service_id();
+            $this->Setting_model->insert_service_amount($service_id,$amount);
+
             $this->session->set_flashdata('msg', '<div style="font-size:13px;" class="alert alert-success">Added Successfully</div>');
             redirect('Settings/AddService');
         }
