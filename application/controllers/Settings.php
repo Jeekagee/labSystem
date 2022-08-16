@@ -410,7 +410,7 @@ class Settings extends CI_Controller {
         redirect('Settings/AddService');
     }
 
-    public function edit_service(){
+    public function editService(){
             $data['page_title'] = 'Edit Service';
             $data['username'] = $this->Dashboard_model->username();
 
