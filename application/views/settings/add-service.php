@@ -5,7 +5,7 @@
 <!--main content start-->
 <section id="main-content">
    <section class="wrapper">
-      <div class="row mb">
+      <!--<div class="row mb">
          <div class="col-lg-3"></div>
          <div class="col-lg-6">
             <?php echo form_open('Settings/insert_service'); ?>
@@ -61,7 +61,7 @@
             </form>
          </div>
          <div class="col-lg-3"></div>
-      </div>
+      </div>-->
       <div class="row mb">
          <div class="col-lg-12">
             <!-- page start-->
@@ -94,7 +94,7 @@
                             foreach ($locations as $loc) {
                               $location_id = $loc->id;
                               $count = $CI->Setting_model->location_avaiable($location_id,$service_id);
-                              if ($count == 1) {
+                              if ($count > 0) {
                                  $amount = $CI->Setting_model->location_amount($location_id,$service_id);
                               }
                               else{
@@ -105,7 +105,7 @@
                             } 
                            ?>
                            <td class="text-center">
-                              <a href="<?php echo base_url(); ?>Settings/deleteService/<?php echo $service_id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                              <!--<a href="<?php echo base_url(); ?>Settings/deleteService/<?php echo $service_id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>-->
                               <a href="<?php echo base_url(); ?>Settings/editService/<?php echo $service_id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                            </td>
                         </tr>

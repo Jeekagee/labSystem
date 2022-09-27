@@ -108,6 +108,7 @@
                                 }
                                 ?>
                               </select>
+                              <span class="text-danger" id="center_error"></span>
                             </div>
                         </div>
 

@@ -301,8 +301,12 @@
         if (service_id == "") {
           $("#service_error").html("Please Select Service");
         }
+        else if (center == "") {
+          $("#center_error").html("Please Select Center");
+        }
         else{
           $("#service_error").html("");
+          $("#center_error").html("");
           $.ajax({
             url:'<?php echo base_url(); ?>Laboratory/insert_service',
             type:'post',

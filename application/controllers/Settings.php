@@ -346,7 +346,7 @@ class Settings extends CI_Controller {
             $data['pending_count'] = $this->Dashboard_model->pending_count();
             $data['confirm_count'] = $this->Dashboard_model->confirm_count();
 
-            $data['services'] = $this->Setting_model->services();
+            $data['services'] = $this->Setting_model->all_services();
             $data['locations'] = $this->Setting_model->locations();            
 
             $data['nav'] = "Settings";
@@ -395,7 +395,7 @@ class Settings extends CI_Controller {
     public function update_service(){
         $service_id = $this->input->post('service_id');
         $service = $this->input->post('service');
-        $this->Setting_model->update_services($service_id,$service);
+        //$this->Setting_model->update_services($service_id,$service);
         $locations = $this->Setting_model->locations();
         
         foreach ($locations as $loc) {
