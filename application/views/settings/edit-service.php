@@ -46,9 +46,9 @@
                               <div class="col-sm-8">
 
                               <?php
-                              $count = $CI->Setting_model->location_avaiable($location_id,$service_id);
-                              if ($count == 1) {
-                                 $amount = $CI->Setting_model->get_amount($service_id,$location_id);
+                              $amount = $CI->Setting_model->get_amount($service_id,$location_id);
+                              if ($amount > 0) {
+                                 $amount = $amount;
                               }
                               else{
                                  $amount = 0;

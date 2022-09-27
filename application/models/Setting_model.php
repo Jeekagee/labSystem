@@ -157,7 +157,16 @@ class Setting_model extends CI_Model
         $sql = "SELECT * FROM service_amount WHERE service_id = $service_id AND location_id = $location_id";
         $query = $this->db->query($sql);
         $row = $query->first_row();
-        return $row->amount;
+
+        $count = $query->num_rows();
+        if($count > 0)
+        {
+            return $row->amount;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public function service_name($service_id){

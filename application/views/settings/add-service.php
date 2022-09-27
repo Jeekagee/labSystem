@@ -106,7 +106,7 @@
                            ?>
                            <td class="text-center">
                               <a href="<?php echo base_url(); ?>Settings/deleteService/<?php echo $service_id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                              <a href="<?php echo base_url(); ?>Settings/edit_service/<?php echo $service_id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                              <a href="<?php echo base_url(); ?>Settings/editService/<?php echo $service_id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                            </td>
                         </tr>
                         <?php
